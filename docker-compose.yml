@@ -1,0 +1,18 @@
+services:
+  hotelpro:
+    build: .
+    container_name: hotelpro
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      # IMPORTANT: override the dev secret with a strong random value.
+      # Generate one with:  python -c "import secrets; print(secrets.token_hex(32))"
+      HOTELPRO_SECRET_KEY: "change-me-to-a-32-byte-random-string-please"
+      HOTELPRO_DB_PATH: /app/data/hotelpro.db
+    volumes:
+      # Persist the SQLite database across container restarts/rebuilds
+      - hotelpro_data:/app/data
+
+volumes:
+  hotelpro_data:
